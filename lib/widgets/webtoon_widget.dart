@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:webtoon/screens/detail_screen.dart';
 
 class Webtoon extends StatelessWidget {
@@ -23,31 +24,35 @@ class Webtoon extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) =>
                 DetailScreen(title: title, thumb: thumb, id: id),
+            fullscreenDialog: true,
           ),
         );
       },
       child: Column(
         children: [
-          Container(
-            width: 250,
-            //본래에는 자식이 부모가 자신의 영역을 침범하는걸 막는데, 이걸적용하면 부모가 자식의
-            //영역에 침범할 수 있다. 그래서 border가 먹는다.
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 15,
-                  offset: const Offset(10, 10),
-                  color: Colors.black.withOpacity(0.5),
-                )
-              ],
-            ),
-            child: Image.network(
-              thumb,
-              headers: const {
-                "User-Agent": headerAgent,
-              },
+          Hero(
+            tag: id,
+            child: Container(
+              width: 250,
+              //본래에는 자식이 부모가 자신의 영역을 침범하는걸 막는데, 이걸적용하면 부모가 자식의
+              //영역에 침범할 수 있다. 그래서 border가 먹는다.
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 15,
+                    offset: const Offset(10, 10),
+                    color: Colors.black.withOpacity(0.5),
+                  )
+                ],
+              ),
+              child: Image.network(
+                thumb,
+                headers: const {
+                  "User-Agent": headerAgent,
+                },
+              ),
             ),
           ),
           const SizedBox(
