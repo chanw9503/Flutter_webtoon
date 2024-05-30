@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:webtoon/models/webtoon.dart';
+import 'package:webtoon/models/webtoon_detail.dart';
 
-//Stateless 위젯이므로 안에 있는 변수와 메서드들은 static으로 정의 
+//Stateless 위젯이므로 안에 있는 변수와 메서드들은 static으로 정의
 
 class ApiService {
   static const String baseUrl =
@@ -27,6 +28,17 @@ class ApiService {
         // webtoonInstances.add(WebtoonModel.fromJson(webtoon));
       }
       return webtoonInstances;
+    }
+
+    throw Error();
+  }
+
+  static Future<WebtoonDetailModel> getToonByid(String id) async {
+    final url = Uri.parse('$baseUrl/$id');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final webtoon = jsonDecode(response.body);
+      return WebtoonDetailModel.fromJson(webtoon);
     }
 
     throw Error();
