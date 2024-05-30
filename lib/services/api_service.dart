@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:webtoon/models/webtoon.dart';
 import 'package:webtoon/models/webtoon_detail.dart';
+import 'package:webtoon/models/webtoon_episode_model.dart';
 
 //Stateless 위젯이므로 안에 있는 변수와 메서드들은 static으로 정의
 
@@ -39,6 +40,22 @@ class ApiService {
     if (response.statusCode == 200) {
       final webtoon = jsonDecode(response.body);
       return WebtoonDetailModel.fromJson(webtoon);
+    }
+
+    throw Error();
+  }
+
+  static Future<List<WebtoonEpisodeModel>> getLatestEpisodesById(
+      String id) async {
+    List<WebtoonEpisodeModel> episodesInstance = [];
+    final url = Uri.parse('$baseUrl/$id/episodes');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final episodes = jsonDecode(response.body);
+      for (var episode in episodes) {
+        episodesInstance.add(WebtoonEpisodeModel.fromJson(episode));
+      }
+      return episodesInstance;
     }
 
     throw Error();
