@@ -25,13 +25,16 @@ class HomeScreen extends StatelessWidget {
             if (snapshot.hasData) {
               //사용자가 보고있는 아이템만 빌드
               // 사용자가 다른걸 보고 있다면 기존에 있던 아이템의 메모리 삭제
-              return ListView.builder(
+              return ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final webtoon = snapshot.data![index];
                   return Text(webtoon.title);
                 },
+                separatorBuilder: (context, index) => const SizedBox(
+                  width: 20,
+                ),
               );
             }
             return const Center(
